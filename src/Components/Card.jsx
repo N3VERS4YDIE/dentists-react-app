@@ -1,22 +1,32 @@
-import React from "react";
+import React from "react"
+import { Link } from "react-router-dom"
+import PropTypes from "prop-types"
 
-
-const Card = ({ name, username, id }) => {
-
-  const addFav = ()=>{
-    // Aqui iria la logica para agregar la Card en el localStorage
-  }
-
+const Card = ({ id, name, username, buttonText, onAction }) => {
   return (
     <div className="card">
-        {/* En cada card deberan mostrar en name - username y el id */}
+      <h2>{name}</h2>
+      <p>@{username}</p>
+      {/* <p>ID: {id}</p> */}
+      <img src="/images/doctor.jpg" alt="doctor" />
 
-        {/* No debes olvidar que la Card a su vez servira como Link hacia la pagina de detalle */}
+      <Link to={`/dentist/${id}`} className="link-button">
+        Ver detalle
+      </Link>
 
-        {/* Ademas deberan integrar la logica para guardar cada Card en el localStorage */}
-        <button onClick={addFav} className="favButton">Add fav</button>
+      <button onClick={onAction}>
+        {buttonText}
+      </button>
     </div>
-  );
-};
+  )
+}
 
-export default Card;
+Card.propTypes = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  buttonText: PropTypes.string.isRequired,
+  onAction: PropTypes.func.isRequired,
+}
+
+export default Card

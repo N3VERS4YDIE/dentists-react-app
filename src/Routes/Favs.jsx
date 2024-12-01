@@ -1,19 +1,36 @@
-import React from "react";
-import Card from "../Components/Card";
-
-//Este componente debera ser estilado como "dark" o "light" dependiendo del theme del Context
+import React, { useContext } from "react"
+import Card from "../Components/Card"
+import { ContextGlobal } from "../utils/global.context"
 
 const Favs = () => {
+  const { state, dispatch } = useContext(ContextGlobal)
+
+  const removeFavoriteDentist = (dentist) => {
+    dispatch({ type: "REMOVE_FAVORITE", payload: dentist.id })
+    alert(`${dentist.name} removid@ de destacados!`)
+  }
 
   return (
-    <>
-      <h1>Dentists Favs</h1>
+    <main>
+      <h1>Dentistas Destacados</h1>
       <div className="card-grid">
-        {/* este componente debe consumir los destacados del localStorage */}
-        {/* Deberan renderizar una Card por cada uno de ellos */}
+        {state.favoriteDentists.length > 0 ? (
+          state.favoriteDentists.map((dentist) => (
+            <Card
+              key={dentist.id}
+              id={dentist.id}
+              name={dentist.name}
+              username={dentist.username}
+              buttonText="Remover de destacados"
+              onAction={() => removeFavoriteDentist(dentist)}
+            />
+          ))
+        ) : (
+          <p>No hay dentistas destacados aún</p>
+        )}
       </div>
-    </>
-  );
-};
+    </main>
+  )
+}
 
-export default Favs;
+export default Favs
